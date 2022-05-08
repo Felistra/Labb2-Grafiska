@@ -11,7 +11,6 @@ public class PatioImage extends JComponent {
 	private ArrayList<Table> tables;
 	
 	public PatioImage() {
-		
 		tables = new ArrayList<Table>();
 		tables.add(new Table(134, 32));
 		tables.add(new Table(141, 130));
@@ -26,7 +25,10 @@ public class PatioImage extends JComponent {
 			System.out.println("Fel");
 		}
 	}
-	
+	public ArrayList<Table> getTables() {
+		return tables;
+	}
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -35,9 +37,9 @@ public class PatioImage extends JComponent {
 		
 		for(Table table : tables) {
 			if(table.isActivated()) {
-				graphics.setColor(new Color(80, 230, 80));
+				graphics.setColor(new Color(230, 8, 8));
 			} else {
-				graphics.setColor(new Color(130, 130, 230));
+				graphics.setColor(new Color(72, 247, 4));
 				graphics.setStroke(new BasicStroke(6));
 				graphics.drawString("", table.getX() + 10, table.getY() + Table.HEIGHT / 2);
 				graphics.drawOval(table.getX(), table.getY(), Table.WIDTH - 10, Table.HEIGHT - 10);

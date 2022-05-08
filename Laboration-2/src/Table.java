@@ -20,6 +20,5 @@ public class Table {
 	
 	public boolean isActivated() { return activated; }
 	public void toggleActivate() { activated = ! activated; }
-	
-	
+
 }

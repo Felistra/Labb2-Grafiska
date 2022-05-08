@@ -1,38 +1,54 @@
 import java.awt.*;
 import javax.swing.*;
+import java.lang.*;
+import java.util.ArrayList;
 
 public class Vy extends JFrame {
 	private JButton bokaButton, avbokaButton, laggTillButton, bokaFranKoButton;
-	private JPanel patioPanel, insidePanel, mainPanel, infoPanel;
-	private JLabel patioLabel, insideLabel, queueLabel;
+	private JPanel patioPanel, insidePanel, mainPanel, infoPanel, addPanel, namePanel, sizePanel, bookPanel;
+	private JLabel patioLabel, insideLabel, queueLabel, nameLabel, sizeLabel;
 	private Controller controller;
 	private PatioImage patioImage;
 	private IndoorImage indoorImage;
 	private final int padding = 10;
+	private JTextField name;
+	private JTextField size;
+	DefaultListModel<String> listModel;
+	private JList<String> availableTables;
 	
 	public Vy() {
 		controller = new Controller(this);
 		patioImage = new PatioImage();
-		patioImage.addMouseListener(controller);
-		indoorImage = new IndoorImage(); 
-		indoorImage.addMouseListener(controller);
-		patioPanel = new JPanel(); 
+		indoorImage = new IndoorImage();
+		patioPanel = new JPanel();
 		insidePanel = new JPanel();
 		mainPanel = new JPanel(); 
 		infoPanel = new JPanel();
+		name = new JTextField(20);
+		size = new JTextField(20);
+		addPanel = new JPanel();
+		namePanel = new JPanel();
+		sizePanel = new JPanel();
+		nameLabel = new JLabel("Namn:");
+		sizeLabel = new JLabel("Storlek p√• s√§llskap:");
+		bookPanel = new JPanel(); 
+		listModel = new DefaultListModel<String>();
+		availableTables = new JList<String>(listModel);
+
+		laggTillButton = new JButton("L√§gg till i k√∂");
+		laggTillButton.setActionCommand("Add");
+		laggTillButton.addActionListener(controller);
+		bokaFranKoButton = new JButton("Boka fr√•n k√∂");
+		bokaFranKoButton.setActionCommand("Boka");
+		bokaFranKoButton.addActionListener(controller);
+		indoorImage.addMouseListener(controller);
+		patioImage.addMouseListener(controller);
 		
-		bokaButton = new JButton("Boka");
-		avbokaButton = new JButton("Avboka");
-		laggTillButton = new JButton("L‰gg till i kˆ");
-		bokaFranKoButton = new JButton("Boka frÂn kˆ");
-		
-		bokaButton.setEnabled(false);
-		avbokaButton.setEnabled(false);
 		bokaFranKoButton.setEnabled(false);
 		
 		patioLabel = new JLabel("Patio");
 		insideLabel = new JLabel("Inomhus");
-		queueLabel = new JLabel("Antal i kˆ:");
+		queueLabel = new JLabel("Antal i k√∂:");
 		
 		patioPanel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
 		patioPanel.setLayout(new BorderLayout());
@@ -40,6 +56,11 @@ public class Vy extends JFrame {
 		insidePanel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
 		insidePanel.setLayout(new BorderLayout());
 		insidePanel.setBackground(Color.white);
+		addPanel.setLayout(new BoxLayout(addPanel, BoxLayout.Y_AXIS));
+		namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.PAGE_AXIS));
+		sizePanel.setLayout(new BoxLayout(sizePanel, BoxLayout.PAGE_AXIS));
+		bookPanel.setLayout(new BoxLayout(bookPanel, BoxLayout.PAGE_AXIS));
+		availableTables.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
 		mainPanel.setLayout(new GridLayout(1, 2));
 		mainPanel.add(patioPanel);
@@ -53,22 +74,77 @@ public class Vy extends JFrame {
 		insidePanel.add(insideLabel, BorderLayout.NORTH);
 		insidePanel.add(indoorImage, BorderLayout.CENTER);
 		
+		nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		name.setAlignmentX(Component.LEFT_ALIGNMENT);
+		namePanel.add(nameLabel);
+		namePanel.add(name);
+		addPanel.add(namePanel);
+		
+		sizeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		size.setAlignmentX(Component.LEFT_ALIGNMENT);
+		sizePanel.add(sizeLabel);
+		sizePanel.add(size);
+		addPanel.add(sizePanel);
+
 		this.setLayout(new BorderLayout());
 		this.add(mainPanel, BorderLayout.CENTER);
 		this.add(infoPanel, BorderLayout.SOUTH);
 		
 		infoPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
-		infoPanel.add(bokaButton);
-		infoPanel.add(avbokaButton);
 		infoPanel.add(laggTillButton);
 		infoPanel.add(bokaFranKoButton);
 		infoPanel.add(queueLabel);
 		infoPanel.setBorder(BorderFactory.createEmptyBorder(padding, padding, padding, padding));
-		// L‰gg in padding pÂ knapparna
 		
 		this.setVisible(true);
 		this.setSize(800, 600);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+	}
+	
+	// Bytte till int f√∂r att kolla resultatet i controller
+	public int addToQueue() {
+		name.setText("");
+		size.setText("");
+		return JOptionPane.showConfirmDialog(this, addPanel, "L√§gg till i k√∂", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+	}
+
+	public String getGuestName() {
+		return name.getText();
+	}
+
+	public String getGuestSize() {
+		return size.getText();
+	}
+
+	public int bookFromQueue() {
+		return JOptionPane.showConfirmDialog(this, bookPanel, "Boka fr√•n k√∂", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+	}
+
+	public void addTableToList() {
+		
+	}
+
+	public void addGuestToList(ArrayList<String> guestQueue) {
+		if(listModel != null) {
+			listModel.clear();
+			availableTables.removeAll();
+		}
+		for(int i = 0; i < guestQueue.size(); i++) {
+			listModel.addElement(guestQueue.get(i) + ", " + guestQueue.get(i+=1) + " pers");
+		}
+		bookPanel.add(availableTables);
+	}
+	
+	public void clearList() {
+		availableTables.removeAll();
+	}
+
+	public void setButtonToEnabled() {
+		bokaFranKoButton.setEnabled(true);
+	}
+
+	public void setButtonToDisabled() {
+		bokaFranKoButton.setEnabled(false);
 	}
 }
