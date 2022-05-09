@@ -1,4 +1,6 @@
 
+// Skapat av Mateusz Weber och Felicia Strandberg.
+
 public class Table {
 	public static final int WIDTH = 65;
 	public static final int HEIGHT = 65;

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+//Skapat av Mateusz Weber och Felicia Strandberg.
+
 public class IndoorImage extends JComponent {
 	private Image indoorImage;
 	private ArrayList<Table> tables;

@@ -1,5 +1,7 @@
 import java.util.*;
 
+//Skapat av Mateusz Weber och Felicia Strandberg.
+
 public class Model {
 
     private String name;

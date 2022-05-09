@@ -4,6 +4,8 @@ import java.util.*;
 import javax.imageio.*;
 import javax.swing.*;
 
+//Skapat av Mateusz Weber och Felicia Strandberg.
+
 public class PatioImage extends JComponent {
 	private Image patioImage;
 	private ArrayList<Table> tables;

@@ -1,6 +1,8 @@
 import java.awt.event.*;
 import javax.swing.event.*;
 
+//Skapat av Mateusz Weber och Felicia Strandberg.
+
 public class Controller implements ActionListener, MouseListener, DocumentListener {
 	private Vy v;
 	private Model m;

@@ -3,6 +3,8 @@ import javax.swing.*;
 import java.lang.*;
 import java.util.ArrayList;
 
+// Skapat av Mateusz Weber och Felicia Strandberg.
+
 public class Vy extends JFrame {
 	private JButton bokaButton, avbokaButton, laggTillButton, bokaFranKoButton;
 	private JPanel patioPanel, insidePanel, mainPanel, infoPanel, addPanel, namePanel, sizePanel, bookPanel;
@@ -17,6 +19,9 @@ public class Vy extends JFrame {
 	private JList<String> guestQueueList;
 	private JComboBox<Integer> availableTables;
 	
+	/**
+	 * Konstruktorn. 
+	 */
 	public Vy() {
 		controller = new Controller(this);
 		patioImage = new PatioImage();
@@ -105,65 +110,122 @@ public class Vy extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
-	// Bytte till int för att kolla resultatet i controller
+	/**
+	 * Metod som returnerar en dialogruta som centreras till this (framen), består av addPanel, har titeln "Lägg till i kö", har ok_cancel-val och plain-message (ingen ikon).
+	 * Tömmer namn- och storleksfälten på text om dialogrutan öppnas på nytt. 
+	 * @return
+	 * En dialogruta. 
+	 */
 	public int addToQueue() {
 		name.setText("");
 		size.setText("");
 		return JOptionPane.showConfirmDialog(this, addPanel, "Lägg till i kö", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
 
+	/**
+	 * Metod som retunerar texten i fältet för sällskapets namn. 
+	 * @return
+	 * Sällskapets namn.
+	 */
 	public String getGuestName() {
 		return name.getText();
 	}
 
+	/**
+	 * Metod som returnerar texten i fältet för sällskapets storlek. 
+	 * @return
+	 * Sällskapets storlek. 
+	 */
 	public String getGuestSize() {
 		return size.getText();
 	}
 
+	/**
+	 * Metod som returnerar en dialogruta som centreras till this (framen), består av bookPanel, har titeln "Boka från kö", har ok_cancel-val och plain-message (ingen ikon).
+	 * @return
+	 * En dialogruta.
+	 */
 	public int bookFromQueue() {
 		return JOptionPane.showConfirmDialog(this, bookPanel, "Boka från kö", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
 	
+	/**
+	 * Metod som tar bort alla items i availablesTables. 
+	 * Anropas för att inte få dubletter om den öppnas flera gånger. 
+	 */
 	public void removeTableFromList() {
 		availableTables.removeAllItems();
 	}
 
+	/**
+	 * Metod som lägger till bord i comboboxen. 
+	 * @param index
+	 * Index är det bord som är ledigt som ska in i listan. 
+	 */
 	public void addTableToList(int index) {
 		availableTables.addItem(index);
 		bookPanel.add(availableTables);
 	}
 	
+	/**
+	 * Metod som returnerar det valda indexet i comboboxen.
+	 * @return
+	 * Valt index. 
+	 */
 	public int getTableFromList() {
 		return availableTables.getSelectedIndex();
 	}
 
+	/**
+	 * Metod som lägger till ett sällskaps namn och storlek i listan guestQueueList. 
+	 * En kontroll görs för om listan är skilt från null, om den redan finns och har skapats, och då töms den för att undvika dubletter. 
+	 * @param guestQueue
+	 * Kölistan med alla sällskap som står i kö till ett bord. 
+	 */
 	public void addGuestToList(ArrayList<String> guestQueue) {
 		if(listModel != null) {
 			listModel.clear();
 			guestQueueList.removeAll();
 		}
 		for(int i = 0; i < guestQueue.size(); i++) {
-			listModel.addElement(guestQueue.get(i) + ", " + guestQueue.get(i+=1) + " pers");
+			listModel.addElement(guestQueue.get(i) + ", " + guestQueue.get(i+=1) + " pers"); // Lägger till i = i + 1 för att få sällskapets namn och storlek på samma rad i listan. 
 		}
 		bookPanel.add(guestQueueList);
 	}
 	
+	/**
+	 * Metod som retunerar det valda indexet i listan av sällskap. 
+	 * @return
+	 * Index i listan för sällskap.
+	 */
 	public int removeGuestFromList() {
 		return guestQueueList.getSelectedIndex();
 	}
 
+	/**
+	 * Metod som sätter knappen med texten "Boka från kö" till enabled.
+	 */
 	public void setBookButtonToEnabled() {
 		bokaFranKoButton.setEnabled(true);
 	}
 
+	/**
+	 * Metod som sätter knappen med texten "Boka från kö" till disabled.
+	 */
 	public void setBookButtonToDisabled() {
 		bokaFranKoButton.setEnabled(false);
 	}
 
+	/**
+	 * Metod som sätter knappen med texten "Lägg till i kö" till enabled.
+	 */
 	public void setQueueButtonEnabled() {
 		laggTillButton.setEnabled(true);
 	}
 
+	/**
+	 * Metod som sätter knappen med texten "Lägg till i kö" till disabled.
+	 */
 	public void setQueueButtonDisabled() {
 		laggTillButton.setEnabled(false);
 	}
