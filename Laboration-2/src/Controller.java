@@ -81,6 +81,7 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 						System.out.println(table.isActivated());
 						// FRÅGA OM .repaint(); och bord 5, 6, 8, 9, 10, 11, 12, 14, 15 och 16 (klicka utanför)
 						// Fråga om vi får hårdkoda index i loopen på rad 43 och kolla index - det tal som speglar listan i indoorimage-klassen
+						// Fråga om vi får instansiera objekt av indoorimage och patioimage-klasserna i controller
 					}
 				}
 			}
