@@ -65,12 +65,10 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 		}
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent e) {}
+
 
 	/**
 	 * Metod som anropas när man klickar med musen. 
-	 * 
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -89,7 +87,7 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 			}
 		}
 		
-		// Om tablesFull är 16, att alla bord är true, så blir knappen med texten "Lägg till i kö" enabled. 
+		// Om tablesFull är 16, att alla bord är true (bokade), så blir knappen med texten "Lägg till i kö" enabled. 
 		if(tablesFull == 16) {
 			v.setQueueButtonEnabled(); 
 		} else {
@@ -98,14 +96,15 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 		
 		System.out.println(tablesFull);
 		
-		if (e.getButton() == MouseEvent.BUTTON1) {
-			for (Table table : p.getTables()) {
-				if (e.getX() >= table.getX() && e.getX() <= table.getX() + table.WIDTH) {
+		if (e.getButton() == MouseEvent.BUTTON1) { // Kollar om man vänsterklickat
+			for (Table table : p.getTables()) {	// Loopar igenom alla utomhusbord i patioImage-klassen
+				if (e.getX() >= table.getX() && e.getX() <= table.getX() + table.WIDTH) { // Kollar om där man klickat är större eller lika med bordet i loopens x- och y-värde.
 					if (e.getY() >= table.getY() && e.getY() <= table.getY() + table.HEIGHT) {
 						table.toggleActivate(); 
 						System.out.println(e.getX() + " " + e.getY());
-						//System.out.println(table.isActivated());
-						// FRÅGA OM .repaint(); och bord 5, 6, 8, 9, 10, 11, 12, 14, 15 och 16 (klicka utanför)
+						// System.out.println(table.isActivated());
+						
+						// FRÅGA OM .repaint(); och bord 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 och 16 (klicka utanför)
 						// Fråga om vi får hårdkoda index i loopen på rad 43 och kolla index - det tal som speglar listan i indoorimage-klassen
 						// Fråga om vi får instansiera objekt av indoorimage och patioimage-klasserna i controller
 						// Ska vi verkligen ha mouselistener på bilderna?
@@ -122,22 +121,46 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 			}
 		}
 	}
-
+	
+	/**
+	 * Metod som behöver överlagras men som inte används. 
+	 */
+	@Override
+	public void mouseClicked(MouseEvent e) {}
+	
+	/**
+	 * Metod som behöver överlagras men som inte används. 
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {}
-
+	
+	/**
+	 * Metod som behöver överlagras men som inte används. 
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {}
 
+	/**
+	 * Metod som behöver överlagras men som inte används. 
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {}
 
+	/**
+	 * Metod som behöver överlagras men som inte används. 
+	 */
 	@Override
 	public void insertUpdate(DocumentEvent e) {}
 
+	/**
+	 * Metod som behöver överlagras men som inte används. 
+	 */
 	@Override
 	public void removeUpdate(DocumentEvent e) {}
 
+	/**
+	 * Metod som behöver överlagras men som inte används. 
+	 */
 	@Override
 	public void changedUpdate(DocumentEvent e) {}
 
