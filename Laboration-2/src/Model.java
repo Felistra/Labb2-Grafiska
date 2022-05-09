@@ -13,16 +13,35 @@ public class Model {
     }
     
     public void setGuestName(String name) {
-    	this.name = name;
+    	if(name.length() < 1) {
+    		name = "";
+    	} else {
+    		this.name = name;
+    	}
     }
     
     public void setGuestSize(String size) {
-    	this.size = size;
+    	if(size.length() >= 1) {
+    		for(char c : size.toCharArray()) { // Kodinspiration från https://stackoverflow.com/questions/18590901/check-and-extract-a-number-from-a-string-in-java
+    			if(!Character.isDigit(c)) {
+    				this.size = "0";
+    			} else {
+    				this.size = size;
+    			}
+    		}
+    	} else {
+    		this.size = "0";
+    	}
     }
 
 	public void addGuestToQueue() {
 		guests.add(name);
 		guests.add(size);
+	}
+	
+	public void removeGuestFromQueue(int i) {
+		guests.remove(i);
+		guests.remove(i);
 	}
 	
 	public ArrayList<String> getGuestQueue() {

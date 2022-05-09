@@ -13,8 +13,9 @@ public class Vy extends JFrame {
 	private final int padding = 10;
 	private JTextField name;
 	private JTextField size;
-	DefaultListModel<String> listModel;
-	private JList<String> availableTables;
+	private DefaultListModel<String> listModel;
+	private JList<String> guestQueueList;
+	private JComboBox<Integer> availableTables;
 	
 	public Vy() {
 		controller = new Controller(this);
@@ -33,7 +34,8 @@ public class Vy extends JFrame {
 		sizeLabel = new JLabel("Storlek på sällskap:");
 		bookPanel = new JPanel(); 
 		listModel = new DefaultListModel<String>();
-		availableTables = new JList<String>(listModel);
+		guestQueueList = new JList<String>(listModel);
+		availableTables = new JComboBox<Integer>();
 
 		laggTillButton = new JButton("Lägg till i kö");
 		laggTillButton.setActionCommand("Add");
@@ -45,6 +47,7 @@ public class Vy extends JFrame {
 		patioImage.addMouseListener(controller);
 		
 		bokaFranKoButton.setEnabled(false);
+		laggTillButton.setEnabled(false);
 		
 		patioLabel = new JLabel("Patio");
 		insideLabel = new JLabel("Inomhus");
@@ -60,7 +63,7 @@ public class Vy extends JFrame {
 		namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.PAGE_AXIS));
 		sizePanel.setLayout(new BoxLayout(sizePanel, BoxLayout.PAGE_AXIS));
 		bookPanel.setLayout(new BoxLayout(bookPanel, BoxLayout.PAGE_AXIS));
-		availableTables.setAlignmentX(Component.LEFT_ALIGNMENT);
+		guestQueueList.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
 		mainPanel.setLayout(new GridLayout(1, 2));
 		mainPanel.add(patioPanel);
@@ -120,31 +123,48 @@ public class Vy extends JFrame {
 	public int bookFromQueue() {
 		return JOptionPane.showConfirmDialog(this, bookPanel, "Boka från kö", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
+	
+	public void removeTableFromList() {
+		availableTables.removeAllItems();
+	}
 
-	public void addTableToList() {
-		
+	public void addTableToList(int index) {
+		availableTables.addItem(index);
+		bookPanel.add(availableTables);
+	}
+	
+	public int getTableFromList() {
+		return availableTables.getSelectedIndex();
 	}
 
 	public void addGuestToList(ArrayList<String> guestQueue) {
 		if(listModel != null) {
 			listModel.clear();
-			availableTables.removeAll();
+			guestQueueList.removeAll();
 		}
 		for(int i = 0; i < guestQueue.size(); i++) {
 			listModel.addElement(guestQueue.get(i) + ", " + guestQueue.get(i+=1) + " pers");
 		}
-		bookPanel.add(availableTables);
+		bookPanel.add(guestQueueList);
 	}
 	
-	public void clearList() {
-		availableTables.removeAll();
+	public int removeGuestFromList() {
+		return guestQueueList.getSelectedIndex();
 	}
 
-	public void setButtonToEnabled() {
+	public void setBookButtonToEnabled() {
 		bokaFranKoButton.setEnabled(true);
 	}
 
-	public void setButtonToDisabled() {
+	public void setBookButtonToDisabled() {
 		bokaFranKoButton.setEnabled(false);
+	}
+
+	public void setQueueButtonEnabled() {
+		laggTillButton.setEnabled(true);
+	}
+
+	public void setQueueButtonDisabled() {
+		laggTillButton.setEnabled(false);
 	}
 }

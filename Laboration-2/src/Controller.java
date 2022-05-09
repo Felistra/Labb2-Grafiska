@@ -18,9 +18,33 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "Boka") {
 			v.addGuestToList(m.getGuestQueue());
+			v.removeTableFromList();
+			for(int i = 0; i < 6; i++) {
+				if(!p.getTables().get(i).isActivated()) {
+					v.addTableToList(i + 1); // tog bort + 1
+				}
+			}
+			
+			for(int j = 0; j < 10; j++) {
+				if(!i.getTables().get(j).isActivated()) { 
+					v.addTableToList(j + 7);
+				}
+			}
+			
 			if(v.bookFromQueue() == 0) {
+				m.removeGuestFromQueue(v.removeGuestFromList());
+				
+				if(v.getTableFromList() < 7) {
+					System.out.println(v.getTableFromList());
+					p.getTables().get(v.getTableFromList()).toggleActivate();
+					
+				} else if(v.getTableFromList() > 7) {
+					System.out.println(v.getTableFromList());
+					i.getTables().get(v.getTableFromList() - 2).toggleActivate();
+				}
+				
 				if(m.getGuestQueue().isEmpty()) {
-					v.setButtonToDisabled(); 
+					v.setBookButtonToDisabled(); 
 				}
 			}
 		}
@@ -29,7 +53,7 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 				m.setGuestName(v.getGuestName());
 				m.setGuestSize(v.getGuestSize());
 				m.addGuestToQueue(); 
-				v.setButtonToEnabled(); 
+				v.setBookButtonToEnabled(); 
 			} 
 		}
 	}
@@ -39,12 +63,24 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		/* for(int k = 0; k < 6; k++) {
+			for(int j = 0; j < 10; j++) {
+				if(!p.getTables().get(k).isActivated() || !i.getTables().get(j).isActivated()) {
+					v.setQueueButtonDisabled();
+				} else {
+					v.setQueueButtonEnabled(); 
+				}
+			}
+		} */
+		v.setQueueButtonEnabled();
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			for (Table table : p.getTables()) {
 				if (e.getX() >= table.getX() && e.getX() <= table.getX() + table.WIDTH) {
 					if (e.getY() >= table.getY() && e.getY() <= table.getY() + table.HEIGHT) {
 						table.toggleActivate(); 
 						System.out.println(table.isActivated());
+						// FRÅGA OM .repaint(); och bord 5, 6, 8, 9, 10, 11, 12, 14, 15 och 16 (klicka utanför)
+						// Fråga om vi får hårdkoda index i loopen på rad 43 och kolla index - det tal som speglar listan i indoorimage-klassen
 					}
 				}
 			}
@@ -53,6 +89,7 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 					if (e.getY() >= table.getY() && e.getY() <= table.getY() + table.HEIGHT) {
 						table.toggleActivate();
 						System.out.println(table.isActivated());
+						// FRÅGA OM .repaint(); 
 					}
 				}
 			}
