@@ -5,8 +5,6 @@ import javax.imageio.*;
 import javax.swing.*;
 
 public class PatioImage extends JComponent {
-	public static final int WIDTH = 65;
-	public static final int HEIGHT = 65;
 	private Image patioImage;
 	private ArrayList<Table> tables;
 	
@@ -17,7 +15,7 @@ public class PatioImage extends JComponent {
 		tables.add(new Table(192, 202));
 		tables.add(new Table(141, 268));
 		tables.add(new Table(192, 336));
-		tables.add(new Table(140, 401));
+		tables.add(new Table(140, 402));
 		try {
 			Image raw = ImageIO.read(new File("patio.jpg"));
 			patioImage = raw.getScaledInstance(raw.getWidth(null) / 2, raw.getHeight(null) / 2, Image.SCALE_SMOOTH);
@@ -42,7 +40,7 @@ public class PatioImage extends JComponent {
 				graphics.setColor(new Color(72, 247, 4));
 				graphics.setStroke(new BasicStroke(6));
 				graphics.drawString("", table.getX() + 10, table.getY() + Table.HEIGHT / 2);
-				graphics.drawOval(table.getX(), table.getY(), Table.WIDTH - 10, Table.HEIGHT - 10);
+				graphics.fillOval(table.getX(), table.getY(), Table.WIDTH - 10, Table.HEIGHT - 10);
 			}
 		}
 	}

@@ -6,22 +6,29 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 	private Model m;
 	private PatioImage p;
 	private IndoorImage i;
+	private int tablesFull;
 
 	public Controller(Vy vin) {
-		v = vin;
-		m = new Model();
-		p = new PatioImage();
-		i = new IndoorImage();
+		v = vin;										// Variabel för alla inkommande värden från vyn
+		m = new Model();								// Instansvariabel för modellen
+		p = new PatioImage();							// Instansvariabel för utomhusbord
+		i = new IndoorImage();							// Instansvariabel för inomhusbord
+		tablesFull = 0;									// Variabel som håller antal lediga bord
 	}
 
+	/**
+	 * Metod som anropas när en händelse sker i vyn. 
+	 * Kollar om knapparna med texten "Boka från kö" eller "Lägg till kö" har tryckts på. 
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// Om man trycker på knappen med texten "Boka från kö" så läggs namnet från kölistan i modellen till i vyns lista. 
 		if(e.getActionCommand() == "Boka") {
 			v.addGuestToList(m.getGuestQueue());
 			v.removeTableFromList();
 			for(int i = 0; i < 6; i++) {
 				if(!p.getTables().get(i).isActivated()) {
-					v.addTableToList(i + 1); // tog bort + 1
+					v.addTableToList(i + 1); 
 				}
 			}
 			
@@ -40,16 +47,16 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 					
 				} else if(v.getTableFromList() > 7) {
 					System.out.println(v.getTableFromList());
-					i.getTables().get(v.getTableFromList() - 2).toggleActivate();
+					i.getTables().get(v.getTableFromList()).toggleActivate();
 				}
 				
 				if(m.getGuestQueue().isEmpty()) {
 					v.setBookButtonToDisabled(); 
 				}
 			}
-		}
-		else if(e.getActionCommand() == "Add") {
-			if(v.addToQueue() == 0) { // 0 för OK
+		// Om man trycker på knappen med texten "Lägg till i kö" och trycker på knappen OK så läggs namnet och storleken på sällskapet i kölistan i modellen. 
+		} else if(e.getActionCommand() == "Add") {
+			if(v.addToQueue() == 0) { 
 				m.setGuestName(v.getGuestName());
 				m.setGuestSize(v.getGuestSize());
 				m.addGuestToQueue(); 
@@ -61,27 +68,47 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 	@Override
 	public void mouseClicked(MouseEvent e) {}
 
+	/**
+	 * Metod som anropas när man klickar med musen. 
+	 * 
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
-		/* for(int k = 0; k < 6; k++) {
-			for(int j = 0; j < 10; j++) {
-				if(!p.getTables().get(k).isActivated() || !i.getTables().get(j).isActivated()) {
-					v.setQueueButtonDisabled();
-				} else {
-					v.setQueueButtonEnabled(); 
-				}
+		tablesFull = 0;
+		
+		// Loopar igenom båda bordslistorna i sina klasser och räknas upp tablesFull för att se om alla borden är upptagna och i sådana fall göra knapparna, för att hantera en kö, enabled. 
+		for(int k = 0; k < 6; k++) {
+			if(p.getTables().get(k).isActivated()) {
+				tablesFull++;
 			}
-		} */
-		v.setQueueButtonEnabled();
+		} 
+		
+		for(int j = 0; j < 10; j++) {
+			if(i.getTables().get(j).isActivated()) {
+				tablesFull++;
+			}
+		}
+		
+		// Om tablesFull är 16, att alla bord är true, så blir knappen med texten "Lägg till i kö" enabled. 
+		if(tablesFull == 16) {
+			v.setQueueButtonEnabled(); 
+		} else {
+			v.setQueueButtonDisabled();
+		}
+		
+		System.out.println(tablesFull);
+		
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			for (Table table : p.getTables()) {
 				if (e.getX() >= table.getX() && e.getX() <= table.getX() + table.WIDTH) {
 					if (e.getY() >= table.getY() && e.getY() <= table.getY() + table.HEIGHT) {
 						table.toggleActivate(); 
-						System.out.println(table.isActivated());
+						System.out.println(e.getX() + " " + e.getY());
+						//System.out.println(table.isActivated());
 						// FRÅGA OM .repaint(); och bord 5, 6, 8, 9, 10, 11, 12, 14, 15 och 16 (klicka utanför)
 						// Fråga om vi får hårdkoda index i loopen på rad 43 och kolla index - det tal som speglar listan i indoorimage-klassen
 						// Fråga om vi får instansiera objekt av indoorimage och patioimage-klasserna i controller
+						// Ska vi verkligen ha mouselistener på bilderna?
 					}
 				}
 			}
@@ -89,8 +116,7 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 				if (e.getX() >= table.getX() && e.getX() <= table.getX() + table.WIDTH) {
 					if (e.getY() >= table.getY() && e.getY() <= table.getY() + table.HEIGHT) {
 						table.toggleActivate();
-						System.out.println(table.isActivated());
-						// FRÅGA OM .repaint(); 
+						//System.out.println(table.isActivated());
 					}
 				}
 			}
