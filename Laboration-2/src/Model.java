@@ -7,6 +7,7 @@ public class Model {
     private String name;
     private String size;
     private ArrayList<String> guests;
+    // Lägg till antal i kö och skicka till vyn
 
     /**
      * Konstruktorn. 

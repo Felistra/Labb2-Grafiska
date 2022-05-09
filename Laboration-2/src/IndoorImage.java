@@ -9,22 +9,22 @@ import javax.swing.*;
 
 public class IndoorImage extends JComponent {
 	private Image indoorImage;
-	private ArrayList<Table> tables;
+	private ArrayList<Table> indoorTables;
 	private Table table;
 
 	public IndoorImage() {
-		tables = new ArrayList<Table>();
+		indoorTables = new ArrayList<Table>();
 		table = new Table(0, 0);
-		tables.add(new Table(67, 412));
-		tables.add(new Table(154, 412));
-		tables.add(new Table(239, 412));
-		tables.add(new Table(325, 412));
-		tables.add(new Table(134, 332));
-		tables.add(new Table(169, 332));
-		tables.add(new Table(244, 311)); // Runda bordet
-		tables.add(new Table(358, 316));
-		tables.add(new Table(358, 231));
-		tables.add(new Table(358, 160));
+		indoorTables.add(new Table(67, 412));
+		indoorTables.add(new Table(154, 412));
+		indoorTables.add(new Table(239, 412));
+		indoorTables.add(new Table(325, 412));
+		indoorTables.add(new Table(134, 332));
+		indoorTables.add(new Table(169, 332));
+		indoorTables.add(new Table(244, 301)); // Runda bordet
+		indoorTables.add(new Table(358, 316));
+		indoorTables.add(new Table(358, 231));
+		indoorTables.add(new Table(358, 160));
 
 		try {
 			Image raw = ImageIO.read(new File("indoor.jpg"));
@@ -35,7 +35,7 @@ public class IndoorImage extends JComponent {
 	}
 
 	public ArrayList<Table> getTables() {
-		return tables;
+		return indoorTables;
 	}
 	
 	@Override
@@ -43,6 +43,7 @@ public class IndoorImage extends JComponent {
 		super.paintComponent(g);
 		Graphics2D graphics = (Graphics2D)g;
 		graphics.drawImage(indoorImage, 0, 135, null);
+		
 		if(table.isActivated()) {
 			graphics.setColor(new Color(249, 1, 1));
 		}
@@ -50,17 +51,21 @@ public class IndoorImage extends JComponent {
 			graphics.setColor(new Color(54, 255, 0, 255));
 			graphics.setStroke(new BasicStroke(6));
 			graphics.drawString("", table.getX() + 10, table.getY() + Table.HEIGHT / 2);
-
-			graphics.drawRect(tables.get(0).getX(), tables.get(0).getY(), Table.WIDTH - 30, Table.HEIGHT - 10);
-			graphics.drawRect(tables.get(1).getX(), tables.get(1).getY(), Table.WIDTH - 30, Table.HEIGHT - 10);
-			graphics.drawRect(tables.get(2).getX(), tables.get(2).getY(), Table.WIDTH - 30, Table.HEIGHT - 10);
-			graphics.drawRect(tables.get(3).getX(), tables.get(3).getY(), Table.WIDTH - 30, Table.HEIGHT - 10);
-			graphics.drawRect(tables.get(4).getX(), tables.get(4).getY(), Table.WIDTH - 35, Table.HEIGHT - 30);
-			graphics.drawRect(tables.get(5).getX(), tables.get(5).getY(), Table.WIDTH - 35, Table.HEIGHT - 30);
-			graphics.drawOval(tables.get(6).getX() + 2, tables.get(6).getY() - 7, Table.WIDTH, Table.HEIGHT);
-			graphics.drawRect(tables.get(7).getX(), tables.get(7).getY(), Table.WIDTH - 35, Table.HEIGHT - 30);
-			graphics.drawRect(tables.get(8).getX(), tables.get(8).getY(), Table.WIDTH - 35, Table.HEIGHT - 30);
-			graphics.drawRect(tables.get(9).getX(), tables.get(9).getY(), Table.WIDTH - 35, Table.HEIGHT - 30);
+		}
+		
+		graphics.drawRect(indoorTables.get(0).getX(), indoorTables.get(0).getY(), Table.WIDTH - 30, Table.HEIGHT - 10);
+		graphics.drawRect(indoorTables.get(1).getX(), indoorTables.get(1).getY(), Table.WIDTH - 30, Table.HEIGHT - 10);
+		graphics.drawRect(indoorTables.get(2).getX(), indoorTables.get(2).getY(), Table.WIDTH - 30, Table.HEIGHT - 10);
+		graphics.drawRect(indoorTables.get(3).getX(), indoorTables.get(3).getY(), Table.WIDTH - 30, Table.HEIGHT - 10);
+		graphics.drawRect(indoorTables.get(4).getX(), indoorTables.get(4).getY(), Table.WIDTH - 35, Table.HEIGHT - 30);
+		graphics.drawRect(indoorTables.get(5).getX(), indoorTables.get(5).getY(), Table.WIDTH - 35, Table.HEIGHT - 30);
+		graphics.drawOval(indoorTables.get(6).getX(), indoorTables.get(6).getY(), Table.WIDTH + 5, Table.HEIGHT + 5);
+		graphics.drawRect(indoorTables.get(7).getX(), indoorTables.get(7).getY(), Table.WIDTH - 35, Table.HEIGHT - 30);
+		graphics.drawRect(indoorTables.get(8).getX(), indoorTables.get(8).getY(), Table.WIDTH - 35, Table.HEIGHT - 30);
+		graphics.drawRect(indoorTables.get(9).getX(), indoorTables.get(9).getY(), Table.WIDTH - 35, Table.HEIGHT - 30);
+		
+		for(int i = 0; i < 10; i++) {
+			// System.out.println("Table activated: " + table.isActivated());
 		}
 	}
 }

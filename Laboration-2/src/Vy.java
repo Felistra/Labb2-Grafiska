@@ -6,9 +6,9 @@ import java.util.ArrayList;
 // Skapat av Mateusz Weber och Felicia Strandberg.
 
 public class Vy extends JFrame {
-	private JButton bokaButton, avbokaButton, laggTillButton, bokaFranKoButton;
+	private JButton laggTillButton, bokaFranKoButton;
 	private JPanel patioPanel, insidePanel, mainPanel, infoPanel, addPanel, namePanel, sizePanel, bookPanel;
-	private JLabel patioLabel, insideLabel, queueLabel, nameLabel, sizeLabel;
+	private JLabel patioLabel, insideLabel, nameLabel, sizeLabel;
 	private Controller controller;
 	private PatioImage patioImage;
 	private IndoorImage indoorImage;
@@ -23,9 +23,9 @@ public class Vy extends JFrame {
 	 * Konstruktorn. 
 	 */
 	public Vy() {
-		controller = new Controller(this);
 		patioImage = new PatioImage();
 		indoorImage = new IndoorImage();
+		controller = new Controller(this);
 		patioPanel = new JPanel();
 		insidePanel = new JPanel();
 		mainPanel = new JPanel(); 
@@ -56,7 +56,6 @@ public class Vy extends JFrame {
 		
 		patioLabel = new JLabel("Patio");
 		insideLabel = new JLabel("Inomhus");
-		queueLabel = new JLabel("Antal i kö:");
 		
 		patioPanel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
 		patioPanel.setLayout(new BorderLayout());
@@ -101,7 +100,6 @@ public class Vy extends JFrame {
 		infoPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
 		infoPanel.add(laggTillButton);
 		infoPanel.add(bokaFranKoButton);
-		infoPanel.add(queueLabel);
 		infoPanel.setBorder(BorderFactory.createEmptyBorder(padding, padding, padding, padding));
 		
 		this.setVisible(true);
@@ -228,5 +226,32 @@ public class Vy extends JFrame {
 	 */
 	public void setQueueButtonDisabled() {
 		laggTillButton.setEnabled(false);
+	}
+	
+	/**
+	 * Metod som anropas .repaint() för att rita om paintComponent. 
+	 */
+	public void repaintImage() {
+		patioImage.repaint();
+		indoorImage.repaint();
+	}
+	
+	/**
+	 * Metod som returnerar patioImage till controller.
+	 * @return
+	 * patioImage.
+	 */
+	public PatioImage getPatioImage() {
+		return patioImage;
+	}
+	
+	/**
+	 * Metod som returnerar indoorImage till controller.
+	 * @return
+	 * indoorImage.
+	 */
+	public IndoorImage getIndoorImage() {
+		return indoorImage;
+		
 	}
 }

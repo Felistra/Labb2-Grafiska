@@ -13,8 +13,8 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 	public Controller(Vy vin) {
 		v = vin;										// Variabel för alla inkommande värden från vyn
 		m = new Model();								// Instansvariabel för modellen
-		p = new PatioImage();							// Instansvariabel för utomhusbord
-		i = new IndoorImage();							// Instansvariabel för inomhusbord
+		this.p = v.getPatioImage();						// Instansvariabel för utomhusbord
+		this.i = v.getIndoorImage();					// Instansvariabel för inomhusbord
 		tablesFull = 0;									// Variabel som håller antal lediga bord
 	}
 
@@ -67,8 +67,6 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 		}
 	}
 
-
-
 	/**
 	 * Metod som anropas när man klickar med musen. 
 	 */
@@ -96,28 +94,33 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 			v.setQueueButtonDisabled();
 		}
 		
-		System.out.println(tablesFull);
+		// System.out.println(tablesFull);
 		
 		if (e.getButton() == MouseEvent.BUTTON1) { // Kollar om man vänsterklickat
+			
 			for (Table table : p.getTables()) {	// Loopar igenom alla utomhusbord i patioImage-klassen
 				if (e.getX() >= table.getX() && e.getX() <= table.getX() + table.WIDTH) { // Kollar om där man klickat är större eller lika med bordet i loopens x- och y-värde.
 					if (e.getY() >= table.getY() && e.getY() <= table.getY() + table.HEIGHT) {
 						table.toggleActivate(); 
-						System.out.println(e.getX() + " " + e.getY());
+						v.repaintImage();
+						// System.out.println(e.getX() + " " + e.getY());
 						// System.out.println(table.isActivated());
 						
-						// FRÅGA OM .repaint(); och bord 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 och 16 (klicka utanför)
 						// Fråga om vi får hårdkoda index i loopen på rad 43 och kolla index - det tal som speglar listan i indoorimage-klassen
-						// Fråga om vi får instansiera objekt av indoorimage och patioimage-klasserna i controller
-						// Ska vi verkligen ha mouselistener på bilderna?
+						// På inomhusbilderna skrivs inte x- och y-värdet ut när man klickar (rad 107).
+						// Lägg till så att man kan ta bort från kölistan
 					}
 				}
 			}
-			for (Table table : i.getTables()) {
+			
+			for (Table table : i.getTables()) { // Loopar igenom alla inomhusbord i indoorImage-klassen
 				if (e.getX() >= table.getX() && e.getX() <= table.getX() + table.WIDTH) {
 					if (e.getY() >= table.getY() && e.getY() <= table.getY() + table.HEIGHT) {
 						table.toggleActivate();
-						//System.out.println(table.isActivated());
+						v.repaintImage();
+						System.out.println(table.getX() + ", " + table.getY());
+						System.out.println(e.getX() + ", " + e.getY());
+						// System.out.println(table.isActivated());
 					}
 				}
 			}
