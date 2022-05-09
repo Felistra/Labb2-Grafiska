@@ -72,7 +72,6 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
-		tablesFull = 0;
 		
 		// Loopar igenom båda bordslistorna i sina klasser och räknas upp tablesFull för att se om alla borden är upptagna och i sådana fall göra knapparna, för att hantera en kö, enabled. 
 		for(int k = 0; k < 6; k++) {
@@ -94,33 +93,30 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 			v.setQueueButtonDisabled();
 		}
 		
-		// System.out.println(tablesFull);
+		System.out.println(tablesFull);
 		
 		if (e.getButton() == MouseEvent.BUTTON1) { // Kollar om man vänsterklickat
 			
-			for (Table table : p.getTables()) {	// Loopar igenom alla utomhusbord i patioImage-klassen
-				if (e.getX() >= table.getX() && e.getX() <= table.getX() + table.WIDTH) { // Kollar om där man klickat är större eller lika med bordet i loopens x- och y-värde.
-					if (e.getY() >= table.getY() && e.getY() <= table.getY() + table.HEIGHT) {
-						table.toggleActivate(); 
-						v.repaintImage();
-						// System.out.println(e.getX() + " " + e.getY());
-						// System.out.println(table.isActivated());
-						
-						// Fråga om vi får hårdkoda index i loopen på rad 43 och kolla index - det tal som speglar listan i indoorimage-klassen
-						// På inomhusbilderna skrivs inte x- och y-värdet ut när man klickar (rad 107).
-						// Lägg till så att man kan ta bort från kölistan
+			// System.out.println(e.getSource());
+			if(e.getSource() == p) {
+				for (Table table : p.getTables()) {	// Loopar igenom alla utomhusbord i patioImage-klassen
+					if (e.getX() >= table.getX() && e.getX() <= table.getX() + table.WIDTH) { // Kollar om där man klickat är större eller lika med bordet i loopens x- och y-värde.
+						if (e.getY() >= table.getY() && e.getY() <= table.getY() + table.HEIGHT) {
+							table.toggleActivate(); 
+							v.repaintImage();
+							
+							// Fråga om vi får hårdkoda index i loopen på rad 43 och kolla index - det tal som speglar listan i indoorimage-klassen
+							// Lägg till så att man kan ta bort från kölistan
+						}
 					}
 				}
-			}
-			
-			for (Table table : i.getTables()) { // Loopar igenom alla inomhusbord i indoorImage-klassen
-				if (e.getX() >= table.getX() && e.getX() <= table.getX() + table.WIDTH) {
-					if (e.getY() >= table.getY() && e.getY() <= table.getY() + table.HEIGHT) {
-						table.toggleActivate();
-						v.repaintImage();
-						System.out.println(table.getX() + ", " + table.getY());
-						System.out.println(e.getX() + ", " + e.getY());
-						// System.out.println(table.isActivated());
+			} else if(e.getSource() == i) {
+				for (Table table : i.getTables()) { // Loopar igenom alla inomhusbord i indoorImage-klassen
+					if (e.getX() >= table.getX() && e.getX() <= table.getX() + table.WIDTH) {
+						if (e.getY() >= table.getY() && e.getY() <= table.getY() + table.HEIGHT) {
+							table.toggleActivate();
+							v.repaintImage();
+						}
 					}
 				}
 			}

@@ -46,7 +46,7 @@ public class PatioImage extends JComponent {
 			graphics.drawString("", table.getX() + 10, table.getY() + Table.HEIGHT / 2);
 			graphics.drawOval(table.getX(), table.getY(), Table.WIDTH - 10, Table.HEIGHT - 10);
 			
-			// System.out.println("Table activated: " + table.isActivated());
+			// System.out.println("Table activated: " + table.isActivated()); 
 		}
 	}
 }

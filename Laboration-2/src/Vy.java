@@ -252,6 +252,5 @@ public class Vy extends JFrame {
 	 */
 	public IndoorImage getIndoorImage() {
 		return indoorImage;
-		
 	}
 }
