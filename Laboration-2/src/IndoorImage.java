@@ -38,6 +38,9 @@ public class IndoorImage extends JComponent {
 		return indoorTables;
 	}
 	
+	/**
+	 * Metod som överlagrar paintComponent då klassen ärver JComponent. 
+	 */
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);

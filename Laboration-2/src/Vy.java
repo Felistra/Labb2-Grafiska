@@ -6,9 +6,9 @@ import java.util.ArrayList;
 // Skapat av Mateusz Weber och Felicia Strandberg.
 
 public class Vy extends JFrame {
-	private JButton laggTillButton, bokaFranKoButton, removeButton;
-	private JPanel patioPanel, insidePanel, mainPanel, infoPanel, addPanel, namePanel, sizePanel, bookPanel, listAndButtonPanel;
-	private JLabel patioLabel, insideLabel, nameLabel, sizeLabel, guestLabel, tableLabel;
+	private JButton laggTillButton, removeButton; 
+	private JPanel patioPanel, insidePanel, mainPanel, addPanel, namePanel, sizePanel, bookPanel, listAndButtonPanel, buttonPanel;
+	private JLabel patioLabel, insideLabel, nameLabel, sizeLabel, guestLabel;
 	private Controller controller;
 	private PatioImage patioImage;
 	private IndoorImage indoorImage;
@@ -17,10 +17,6 @@ public class Vy extends JFrame {
 	private JTextField size;
 	private DefaultListModel<String> listModel;
 	private JList<String> guestQueueList;
-	private JComboBox<Integer> availableTables;
-	
-	// Lägg till så att man kan ta bort från kölistan + varning om man vill ta bort
-	// Styla kölistvyn
 	
 	/**
 	 * Konstruktorn. 
@@ -32,7 +28,6 @@ public class Vy extends JFrame {
 		patioPanel = new JPanel();
 		insidePanel = new JPanel();
 		mainPanel = new JPanel(); 
-		infoPanel = new JPanel();
 		name = new JTextField(20);
 		size = new JTextField(20);
 		addPanel = new JPanel();
@@ -43,25 +38,20 @@ public class Vy extends JFrame {
 		bookPanel = new JPanel(); 
 		listModel = new DefaultListModel<String>();
 		guestQueueList = new JList<String>(listModel);
-		availableTables = new JComboBox<Integer>();
 		listAndButtonPanel = new JPanel(); 
 		guestLabel = new JLabel("Välj sällskap:"); 
-		tableLabel = new JLabel("Välj bord:");
+		buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); 
 
 		laggTillButton = new JButton("Lägg till i kö");
 		laggTillButton.setActionCommand("Add");
 		laggTillButton.addActionListener(controller);
-		bokaFranKoButton = new JButton("Boka från kö");
-		bokaFranKoButton.setActionCommand("Boka");
-		bokaFranKoButton.addActionListener(controller);
 		indoorImage.addMouseListener(controller);
 		patioImage.addMouseListener(controller);
 		removeButton = new JButton("Ta bort");
 		removeButton.setActionCommand("Remove");
 		removeButton.addActionListener(controller);
-		
-		bokaFranKoButton.setEnabled(false);
-		laggTillButton.setEnabled(false);
+		removeButton.setEnabled(false);
+		guestQueueList.addListSelectionListener(controller);
 		
 		patioLabel = new JLabel("Patio");
 		insideLabel = new JLabel("Inomhus");
@@ -75,12 +65,22 @@ public class Vy extends JFrame {
 		addPanel.setLayout(new BoxLayout(addPanel, BoxLayout.Y_AXIS));
 		namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.PAGE_AXIS));
 		sizePanel.setLayout(new BoxLayout(sizePanel, BoxLayout.PAGE_AXIS));
-		bookPanel.setLayout(new BoxLayout(bookPanel, BoxLayout.PAGE_AXIS));
+		bookPanel.setLayout(new BorderLayout());
+		bookPanel.setBorder(BorderFactory.createEmptyBorder(padding, padding, padding, padding));
 		listAndButtonPanel.setLayout(new BoxLayout(listAndButtonPanel, BoxLayout.PAGE_AXIS));
 		
-		mainPanel.setLayout(new GridLayout(1, 2));
+		mainPanel.setLayout(new GridLayout(1, 3));
 		mainPanel.add(patioPanel);
 		mainPanel.add(insidePanel);
+		mainPanel.add(bookPanel);
+		listAndButtonPanel.add(guestLabel);
+		listAndButtonPanel.add(guestQueueList);
+		listAndButtonPanel.add(Box.createVerticalStrut(padding));
+		listAndButtonPanel.add(removeButton);
+		bookPanel.add(listAndButtonPanel, BorderLayout.NORTH);
+		bookPanel.add(buttonPanel, BorderLayout.SOUTH);
+		buttonPanel.add(laggTillButton);
+		
 		patioLabel.setHorizontalAlignment(JLabel.CENTER);
 		patioLabel.setFont(new Font("Arial", Font.BOLD, 30));
 		patioPanel.add(patioLabel, BorderLayout.NORTH);
@@ -104,15 +104,9 @@ public class Vy extends JFrame {
 
 		this.setLayout(new BorderLayout());
 		this.add(mainPanel, BorderLayout.CENTER);
-		this.add(infoPanel, BorderLayout.SOUTH);
-		
-		infoPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
-		infoPanel.add(laggTillButton);
-		infoPanel.add(bokaFranKoButton);
-		infoPanel.setBorder(BorderFactory.createEmptyBorder(padding, padding, padding, padding));
 		
 		this.setVisible(true);
-		this.setSize(800, 600);
+		this.setSize(1200, 600);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
@@ -155,44 +149,6 @@ public class Vy extends JFrame {
 	public int bookFromQueue() {
 		return JOptionPane.showConfirmDialog(this, bookPanel, "Boka från kö", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
-	
-	/**
-	 * Metod som tar bort alla items i availablesTables. 
-	 * Anropas för att inte få dubletter om den öppnas flera gånger. 
-	 */
-	public void removeTableFromList() {
-		availableTables.removeAllItems();
-	}
-
-	/**
-	 * Metod som lägger till bord i comboboxen. 
-	 * @param index
-	 * Index är det bord som är ledigt som ska in i listan. 
-	 */
-	public void addTableToList(int index) {
-		availableTables.addItem(index);
-		bookPanel.add(Box.createVerticalStrut(padding));
-		bookPanel.add(tableLabel);
-		tableLabel.setAlignmentX(LEFT_ALIGNMENT);
-		bookPanel.add(availableTables);
-		availableTables.setAlignmentX(LEFT_ALIGNMENT);
-	}
-	
-	/**
-	 * Metod som returnerar det valda itemet i comboboxen.
-	 * Parsar om det valde itemet till en sträng och sedan till en int. 
-	 * @return
-	 * Valt item. 
-	 */
-	public int getTableFromList() {
-		if(availableTables.getSelectedItem() != null) {
-			String s = availableTables.getSelectedItem().toString();
-			int selectedTable = Integer.parseInt(s);
-			return selectedTable;
-		} else {
-			return 0;
-		}
-	}
 
 	/**
 	 * Metod som lägger till ett sällskaps namn och storlek i listan guestQueueList. 
@@ -208,17 +164,10 @@ public class Vy extends JFrame {
 		for(int i = 0; i < guestQueue.size(); i++) {
 			listModel.addElement(guestQueue.get(i) + ", " + guestQueue.get(i+=1) + " pers"); // Lägger till i = i + 1 för att få sällskapets namn och storlek på samma rad i listan. 
 		}
-		listAndButtonPanel.add(guestLabel);
-		listAndButtonPanel.add(guestQueueList);
-		listAndButtonPanel.add(Box.createVerticalStrut(padding));
-		listAndButtonPanel.add(removeButton);
-		bookPanel.add(listAndButtonPanel);
 		removeButton.setAlignmentX(Component.LEFT_ALIGNMENT);
 		guestQueueList.setAlignmentX(Component.LEFT_ALIGNMENT);
-		guestQueueList.setFixedCellWidth(350);
+		guestQueueList.setFixedCellWidth(400);
 		guestQueueList.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION); // Kan bara välja ett val
-		guestQueueList.setSelectedIndex(0); // Sätter selectedIndex till 0 för att alltid ha ett val när listan öppnas
-		
 	}
 	
 	/**
@@ -228,20 +177,6 @@ public class Vy extends JFrame {
 	 */
 	public int removeGuestFromList() {
 		return guestQueueList.getSelectedIndex();
-	}
-
-	/**
-	 * Metod som sätter knappen med texten "Boka från kö" till enabled.
-	 */
-	public void setBookButtonToEnabled() {
-		bokaFranKoButton.setEnabled(true);
-	}
-
-	/**
-	 * Metod som sätter knappen med texten "Boka från kö" till disabled.
-	 */
-	public void setBookButtonToDisabled() {
-		bokaFranKoButton.setEnabled(false);
 	}
 
 	/**
@@ -256,6 +191,20 @@ public class Vy extends JFrame {
 	 */
 	public void setQueueButtonDisabled() {
 		laggTillButton.setEnabled(false);
+	}
+	
+	/**
+	 * Metod som sätter knappen med texten "Ta bort" till disabled.
+	 */
+	public void setRemoveButtonDisabled() {
+		removeButton.setEnabled(false);
+	}
+	
+	/**
+	 * Metod som sätter knappen med texten "Ta bort" till enabled. 
+	 */
+	public void setRemoveButtonEnabled() {
+		removeButton.setEnabled(true);
 	}
 	
 	/**
@@ -284,12 +233,23 @@ public class Vy extends JFrame {
 		return indoorImage;
 	}
 
+	/**
+	 * Metod som returnerar en dialogruta där användaren får möjlighet att ångra borttagningen av ett sällskap i kölistan.
+	 * @return
+	 * En dialogruta.
+	 */
 	public int verifyRemoveDialog() {
-		return JOptionPane.showConfirmDialog(this, "Är du säker på detta?", "Ta bort", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+		return JOptionPane.showConfirmDialog(this, "Är du säker på att du vill ta bort ett sällskap från kölistan?", "Ta bort", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 	}
 
-	public void removeItemInList() {
+	/**
+	 * Metod som hämtar ut valt index i kölistan och tar bort valt index från listan. 
+	 * @return
+	 * Valt index.
+	 */
+	public int removeItemInList() {
 		int selectedIndex = guestQueueList.getSelectedIndex();
-		guestQueueList.remove(selectedIndex);
+		listModel.remove(selectedIndex);
+		return selectedIndex;
 	}
 }

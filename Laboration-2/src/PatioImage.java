@@ -10,6 +10,9 @@ public class PatioImage extends JComponent {
 	private Image patioImage;
 	private ArrayList<Table> patioTables;
 	
+	/**
+	 * Konstruktorn.
+	 */
 	public PatioImage() {
 		patioTables = new ArrayList<Table>();
 		patioTables.add(new Table(134, 32));
@@ -30,6 +33,9 @@ public class PatioImage extends JComponent {
 		return patioTables;
 	}
 
+	/**
+	 * Metod som överlagrar paintComponent då klassen ärver JComponent. 
+	 */
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -45,8 +51,7 @@ public class PatioImage extends JComponent {
 			graphics.setStroke(new BasicStroke(6));
 			graphics.drawString("", table.getX() + 10, table.getY() + Table.HEIGHT / 2);
 			graphics.drawOval(table.getX(), table.getY(), Table.WIDTH - 10, Table.HEIGHT - 10);
-			
-			// System.out.println("Table activated: " + table.isActivated()); 
+			 
 		}
 	}
 }

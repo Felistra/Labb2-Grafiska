@@ -7,6 +7,11 @@ public class Table {
 	private int x, y;
 	private boolean activated;
 	
+	/**
+	 * Konstruktorn.
+	 * Kod inspirerad av Jonathan Vestin från föreläsning 9. 
+	 *
+	 */
 	public Table(int x, int y) {
 		this.x = x;
 		this.y = y;
