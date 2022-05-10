@@ -117,6 +117,7 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 			} 
 		} else if(e.getActionCommand() == "Remove") {
 			if(v.verifyRemoveDialog() == 0) {
+				v.removeItemInList();
 				m.removeGuestFromQueue(v.removeGuestFromList());
 			}
 			if(m.getGuestQueue().isEmpty()) {

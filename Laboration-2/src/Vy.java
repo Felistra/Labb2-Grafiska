@@ -286,6 +286,10 @@ public class Vy extends JFrame {
 
 	public int verifyRemoveDialog() {
 		return JOptionPane.showConfirmDialog(this, "Är du säker på detta?", "Ta bort", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-		
+	}
+
+	public void removeItemInList() {
+		int selectedIndex = guestQueueList.getSelectedIndex();
+		guestQueueList.remove(selectedIndex);
 	}
 }
