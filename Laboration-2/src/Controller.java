@@ -45,27 +45,68 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 				
 				for(int k = 1; k < 7; k++) {
 					if(v.getTableFromList() == k) {
-						p.getTables().get(v.getTableFromList() - k).toggleActivate();
-						System.out.println(v.getTableFromList() - k);
+						p.getTables().get(v.getTableFromList() - 1).toggleActivate();
+						System.out.println(v.getTableFromList() - 1);
 						v.repaintImage();
 						v.setQueueButtonEnabled();
+					}
 				}
-				 
-				for(int j = 1; j < 11; j++) {
-					if(v.getTableFromList() == j) {
-						i.getTables().get(v.getTableFromList() - j).toggleActivate();
-						System.out.println(v.getTableFromList() - j);
-						v.repaintImage();
-						v.setQueueButtonEnabled();
+
+				if(v.getTableFromList() == 7) {
+					i.getTables().get(v.getTableFromList() - 7).toggleActivate();
+					v.repaintImage();
+					v.setQueueButtonEnabled();
+					
+				} else if(v.getTableFromList() == 8) {
+					i.getTables().get(v.getTableFromList() - 7).toggleActivate();
+					v.repaintImage();
+					v.setQueueButtonEnabled();
+					
+				} else if(v.getTableFromList() == 9) {
+					i.getTables().get(v.getTableFromList() - 7).toggleActivate();
+					v.repaintImage();
+					v.setQueueButtonEnabled();
+					
+				} else if(v.getTableFromList() == 10) {
+					i.getTables().get(v.getTableFromList() - 7).toggleActivate();
+					v.repaintImage();
+					v.setQueueButtonEnabled();
+					
+				} else if(v.getTableFromList() == 11) {
+					i.getTables().get(v.getTableFromList() - 7).toggleActivate();
+					v.repaintImage();
+					v.setQueueButtonEnabled();
+					
+				} else if(v.getTableFromList() == 12) {
+					i.getTables().get(v.getTableFromList() - 7).toggleActivate();
+					v.repaintImage();
+					v.setQueueButtonEnabled();
+					
+				} else if(v.getTableFromList() == 13) {
+					i.getTables().get(v.getTableFromList() - 7).toggleActivate();
+					v.repaintImage();
+					v.setQueueButtonEnabled();
+					
+				} else if(v.getTableFromList() == 14) {
+					i.getTables().get(v.getTableFromList() - 7).toggleActivate();
+					v.repaintImage();
+					v.setQueueButtonEnabled();
+					
+				} else if(v.getTableFromList() == 15) {
+					i.getTables().get(v.getTableFromList() - 7).toggleActivate();
+					v.repaintImage();
+					v.setQueueButtonEnabled();
+					
+				} else if(v.getTableFromList() == 16) {
+					i.getTables().get(v.getTableFromList() - 7).toggleActivate();
+					v.repaintImage();
+					v.setQueueButtonEnabled();
 				}
-				
 				
 				if(m.getGuestQueue().isEmpty()) {
 					v.setBookButtonToDisabled();
 				}
 			}
-		}
-	}
 		// Om man trycker på knappen med texten "Lägg till i kö" och trycker på knappen OK så läggs namnet och storleken på sällskapet i kölistan i modellen. 
 		} else if(e.getActionCommand() == "Add") {
 			if(v.addToQueue() == 0) { 
@@ -114,8 +155,6 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 						if (e.getY() >= table.getY() && e.getY() <= table.getY() + table.HEIGHT) {
 							table.toggleActivate(); 
 							v.repaintImage();
-							// Fråga om vi får hårdkoda index i loopen på rad 43 och kolla index - det tal som speglar listan i indoorimage-klassen
-							// Lägg till så att man kan ta bort från kölistan
 						}
 					}
 				}

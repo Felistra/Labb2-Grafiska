@@ -38,11 +38,11 @@ public class PatioImage extends JComponent {
 		
 		for(Table table : patioTables) {
 			if(table.isActivated()) {
-				graphics.setColor(new Color(230, 8, 8));
+				graphics.setColor(new Color(255, 128, 15));
 			} else {
-				graphics.setColor(new Color(72, 247, 4));
+				graphics.setColor(new Color(1, 107, 165));
 			}
-			graphics.setStroke(new BasicStroke(3));
+			graphics.setStroke(new BasicStroke(6));
 			graphics.drawString("", table.getX() + 10, table.getY() + Table.HEIGHT / 2);
 			graphics.drawOval(table.getX(), table.getY(), Table.WIDTH - 10, Table.HEIGHT - 10);
 			

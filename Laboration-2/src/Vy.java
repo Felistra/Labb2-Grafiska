@@ -19,6 +19,9 @@ public class Vy extends JFrame {
 	private JList<String> guestQueueList;
 	private JComboBox<Integer> availableTables;
 	
+	// Lägg till så att man kan ta bort från kölistan + varning om man vill ta bort
+	// Styla kölistvyn
+	
 	/**
 	 * Konstruktorn. 
 	 */
@@ -193,6 +196,8 @@ public class Vy extends JFrame {
 			listModel.addElement(guestQueue.get(i) + ", " + guestQueue.get(i+=1) + " pers"); // Lägger till i = i + 1 för att få sällskapets namn och storlek på samma rad i listan. 
 		}
 		bookPanel.add(guestQueueList);
+		guestQueueList.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION); // Kan bara välja ett val
+		
 	}
 	
 	/**
