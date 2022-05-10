@@ -283,4 +283,9 @@ public class Vy extends JFrame {
 	public IndoorImage getIndoorImage() {
 		return indoorImage;
 	}
+
+	public int verifyRemoveDialog() {
+		return JOptionPane.showConfirmDialog(this, "Är du säker på detta?", "Ta bort", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+		
+	}
 }
