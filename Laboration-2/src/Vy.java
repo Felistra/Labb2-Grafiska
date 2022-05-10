@@ -6,9 +6,9 @@ import java.util.ArrayList;
 // Skapat av Mateusz Weber och Felicia Strandberg.
 
 public class Vy extends JFrame {
-	private JButton laggTillButton, bokaFranKoButton;
-	private JPanel patioPanel, insidePanel, mainPanel, infoPanel, addPanel, namePanel, sizePanel, bookPanel;
-	private JLabel patioLabel, insideLabel, nameLabel, sizeLabel;
+	private JButton laggTillButton, bokaFranKoButton, removeButton;
+	private JPanel patioPanel, insidePanel, mainPanel, infoPanel, addPanel, namePanel, sizePanel, bookPanel, listAndButtonPanel;
+	private JLabel patioLabel, insideLabel, nameLabel, sizeLabel, guestLabel, tableLabel;
 	private Controller controller;
 	private PatioImage patioImage;
 	private IndoorImage indoorImage;
@@ -44,6 +44,9 @@ public class Vy extends JFrame {
 		listModel = new DefaultListModel<String>();
 		guestQueueList = new JList<String>(listModel);
 		availableTables = new JComboBox<Integer>();
+		listAndButtonPanel = new JPanel(); 
+		guestLabel = new JLabel("Välj sällskap:"); 
+		tableLabel = new JLabel("Välj bord:");
 
 		laggTillButton = new JButton("Lägg till i kö");
 		laggTillButton.setActionCommand("Add");
@@ -53,6 +56,9 @@ public class Vy extends JFrame {
 		bokaFranKoButton.addActionListener(controller);
 		indoorImage.addMouseListener(controller);
 		patioImage.addMouseListener(controller);
+		removeButton = new JButton("Ta bort");
+		removeButton.setActionCommand("Remove");
+		removeButton.addActionListener(controller);
 		
 		bokaFranKoButton.setEnabled(false);
 		laggTillButton.setEnabled(false);
@@ -70,7 +76,7 @@ public class Vy extends JFrame {
 		namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.PAGE_AXIS));
 		sizePanel.setLayout(new BoxLayout(sizePanel, BoxLayout.PAGE_AXIS));
 		bookPanel.setLayout(new BoxLayout(bookPanel, BoxLayout.PAGE_AXIS));
-		guestQueueList.setAlignmentX(Component.LEFT_ALIGNMENT);
+		listAndButtonPanel.setLayout(new BoxLayout(listAndButtonPanel, BoxLayout.PAGE_AXIS));
 		
 		mainPanel.setLayout(new GridLayout(1, 2));
 		mainPanel.add(patioPanel);
@@ -165,7 +171,11 @@ public class Vy extends JFrame {
 	 */
 	public void addTableToList(int index) {
 		availableTables.addItem(index);
+		bookPanel.add(Box.createVerticalStrut(padding));
+		bookPanel.add(tableLabel);
+		tableLabel.setAlignmentX(LEFT_ALIGNMENT);
 		bookPanel.add(availableTables);
+		availableTables.setAlignmentX(LEFT_ALIGNMENT);
 	}
 	
 	/**
@@ -175,10 +185,13 @@ public class Vy extends JFrame {
 	 * Valt item. 
 	 */
 	public int getTableFromList() {
-		//return availableTables.getSelectedItem();
-		String s = availableTables.getSelectedItem().toString();
-		int selectedTable = Integer.parseInt(s);
-		return selectedTable;
+		if(availableTables.getSelectedItem() != null) {
+			String s = availableTables.getSelectedItem().toString();
+			int selectedTable = Integer.parseInt(s);
+			return selectedTable;
+		} else {
+			return 0;
+		}
 	}
 
 	/**
@@ -195,8 +208,16 @@ public class Vy extends JFrame {
 		for(int i = 0; i < guestQueue.size(); i++) {
 			listModel.addElement(guestQueue.get(i) + ", " + guestQueue.get(i+=1) + " pers"); // Lägger till i = i + 1 för att få sällskapets namn och storlek på samma rad i listan. 
 		}
-		bookPanel.add(guestQueueList);
+		listAndButtonPanel.add(guestLabel);
+		listAndButtonPanel.add(guestQueueList);
+		listAndButtonPanel.add(Box.createVerticalStrut(padding));
+		listAndButtonPanel.add(removeButton);
+		bookPanel.add(listAndButtonPanel);
+		removeButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+		guestQueueList.setAlignmentX(Component.LEFT_ALIGNMENT);
+		guestQueueList.setFixedCellWidth(350);
 		guestQueueList.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION); // Kan bara välja ett val
+		guestQueueList.setSelectedIndex(0); // Sätter selectedIndex till 0 för att alltid ha ett val när listan öppnas
 		
 	}
 	

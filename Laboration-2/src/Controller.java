@@ -115,6 +115,8 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 				m.addGuestToQueue(); 
 				v.setBookButtonToEnabled(); 
 			} 
+		} else if(e.getActionCommand() == "Remove") {
+			System.out.println("Ta bort");
 		}
 	}
 
