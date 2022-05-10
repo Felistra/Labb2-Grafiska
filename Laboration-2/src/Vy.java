@@ -166,12 +166,16 @@ public class Vy extends JFrame {
 	}
 	
 	/**
-	 * Metod som returnerar det valda indexet i comboboxen.
+	 * Metod som returnerar det valda itemet i comboboxen.
+	 * Parsar om det valde itemet till en sträng och sedan till en int. 
 	 * @return
-	 * Valt index. 
+	 * Valt item. 
 	 */
 	public int getTableFromList() {
-		return availableTables.getSelectedIndex();
+		//return availableTables.getSelectedItem();
+		String s = availableTables.getSelectedItem().toString();
+		int selectedTable = Integer.parseInt(s);
+		return selectedTable;
 	}
 
 	/**

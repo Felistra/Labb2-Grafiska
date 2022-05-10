@@ -35,7 +35,7 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 			}
 			
 			for(int j = 0; j < 10; j++) {
-				if(!i.getTables().get(j).isActivated()) { 
+				if(!i.getTables().get(j).isActivated()) {
 					v.addTableToList(j + 7);
 				}
 			}
@@ -43,19 +43,29 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 			if(v.bookFromQueue() == 0) {
 				m.removeGuestFromQueue(v.removeGuestFromList());
 				
-				if(v.getTableFromList() < 7) {
-					System.out.println(v.getTableFromList());
-					p.getTables().get(v.getTableFromList()).toggleActivate();
-					
-				} else if(v.getTableFromList() > 7) {
-					System.out.println(v.getTableFromList());
-					i.getTables().get(v.getTableFromList()).toggleActivate();
+				for(int k = 1; k < 7; k++) {
+					if(v.getTableFromList() == k) {
+						p.getTables().get(v.getTableFromList() - k).toggleActivate();
+						System.out.println(v.getTableFromList() - k);
+						v.repaintImage();
+						v.setQueueButtonEnabled();
+				}
+				 
+				for(int j = 1; j < 11; j++) {
+					if(v.getTableFromList() == j) {
+						i.getTables().get(v.getTableFromList() - j).toggleActivate();
+						System.out.println(v.getTableFromList() - j);
+						v.repaintImage();
+						v.setQueueButtonEnabled();
 				}
 				
+				
 				if(m.getGuestQueue().isEmpty()) {
-					v.setBookButtonToDisabled(); 
+					v.setBookButtonToDisabled();
 				}
 			}
+		}
+	}
 		// Om man trycker på knappen med texten "Lägg till i kö" och trycker på knappen OK så läggs namnet och storleken på sällskapet i kölistan i modellen. 
 		} else if(e.getActionCommand() == "Add") {
 			if(v.addToQueue() == 0) { 
@@ -72,19 +82,19 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
-		
+		tablesFull = 1;
 		// Loopar igenom båda bordslistorna i sina klasser och räknas upp tablesFull för att se om alla borden är upptagna och i sådana fall göra knapparna, för att hantera en kö, enabled. 
 		for(int k = 0; k < 6; k++) {
 			if(p.getTables().get(k).isActivated()) {
 				tablesFull++;
-			}
+			} 
 		} 
 		
 		for(int j = 0; j < 10; j++) {
 			if(i.getTables().get(j).isActivated()) {
 				tablesFull++;
-			}
-		}
+			} 
+		} 
 		
 		// Om tablesFull är 16, att alla bord är true (bokade), så blir knappen med texten "Lägg till i kö" enabled. 
 		if(tablesFull == 16) {
@@ -93,7 +103,7 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 			v.setQueueButtonDisabled();
 		}
 		
-		System.out.println(tablesFull);
+		// System.out.println(tablesFull);
 		
 		if (e.getButton() == MouseEvent.BUTTON1) { // Kollar om man vänsterklickat
 			
@@ -104,7 +114,6 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 						if (e.getY() >= table.getY() && e.getY() <= table.getY() + table.HEIGHT) {
 							table.toggleActivate(); 
 							v.repaintImage();
-							
 							// Fråga om vi får hårdkoda index i loopen på rad 43 och kolla index - det tal som speglar listan i indoorimage-klassen
 							// Lägg till så att man kan ta bort från kölistan
 						}
@@ -112,8 +121,8 @@ public class Controller implements ActionListener, MouseListener, DocumentListen
 				}
 			} else if(e.getSource() == i) {
 				for (Table table : i.getTables()) { // Loopar igenom alla inomhusbord i indoorImage-klassen
-					if (e.getX() >= table.getX() && e.getX() <= table.getX() + table.WIDTH) {
-						if (e.getY() >= table.getY() && e.getY() <= table.getY() + table.HEIGHT) {
+					if (e.getX() >= table.getX() && e.getX() <= table.getX() + table.WIDTH - 30) {
+						if (e.getY() >= table.getY() && e.getY() <= table.getY() + table.HEIGHT - 10) {
 							table.toggleActivate();
 							v.repaintImage();
 						}
